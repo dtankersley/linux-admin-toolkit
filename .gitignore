@@ -1,0 +1,17 @@
+# Secrets and keys
+*.pem
+*.key
+.env
+
+# Logs and local output
+*.log
+logs/
+
+# Terraform (for later weeks)
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# Editor files
+*~
+.vscode/
