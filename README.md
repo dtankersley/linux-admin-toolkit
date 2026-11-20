@@ -8,7 +8,8 @@ Small, readable Bash tools for everyday Linux administration. Built in public ov
 | `scripts/health-check.sh` | CPU, memory, disk, and uptime report with threshold warnings |
 | `scripts/service-check.sh` | Checks one or more systemd services; exit code 2 if any are down |
 | `scripts/log-analyzer.sh` | Summarizes errors by service and failed logins from journald |
-| `scripts/system-monitor.sh` | Snapshot of load, memory, and top processes; can repeat on an interval |
+| `scripts/system-monitor.sh` | Snapshot of load, memory, and top processes; can repeat on an interval|
+| `scripts/backup.sh` | Timestamped tar.gz backup of a directory, verified, keeping the newest N |
 
 ## Usage
     ./scripts/health-check.sh
@@ -22,6 +23,8 @@ Small, readable Bash tools for everyday Linux administration. Built in public ov
     ./scripts/system-monitor.sh          # one snapshot
     ./scripts/system-monitor.sh 5 12     # every 5 seconds, 12 times
     TOP_N=10 ./scripts/system-monitor.sh
+    ./scripts/backup.sh ~/projects           # to ~/backups, keep 7
+    KEEP=3 ./scripts/backup.sh ~/projects /mnt/usb/backups
 
 ## Exit codes
 | Script | 0 | 1 | 2 |
@@ -30,6 +33,7 @@ Small, readable Bash tools for everyday Linux administration. Built in public ov
 | `service-check.sh` | all running | usage error | at least one not running |
 | `log-analyzer.sh` | done | usage error | — |
 | `system-monitor.sh` | done | usage error | — |
+| `backup.sh` | backup created and verified | usage error | backup or verify failed |
 
 ## Example output (log-analyzer)
     == LOG SUMMARY: last 1 hour(s) ==
