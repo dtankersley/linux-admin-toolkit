@@ -10,6 +10,7 @@ Small, readable Bash tools for everyday Linux administration. Built in public ov
 | `scripts/log-analyzer.sh` | Summarizes errors by service and failed logins from journald |
 | `scripts/system-monitor.sh` | Snapshot of load, memory, and top processes; can repeat on an interval|
 | `scripts/backup.sh` | Timestamped tar.gz backup of a directory, verified, keeping the newest N |
+| `scripts/user-audit.sh` | Accounts, UID 0 users, wheel/sudo members, empty passwords, recent logins |
 
 ## Usage
     ./scripts/health-check.sh
@@ -25,6 +26,7 @@ Small, readable Bash tools for everyday Linux administration. Built in public ov
     TOP_N=10 ./scripts/system-monitor.sh
     ./scripts/backup.sh ~/projects           # to ~/backups, keep 7
     KEEP=3 ./scripts/backup.sh ~/projects /mnt/usb/backups
+    sudo ./scripts/user-audit.sh             # full audit (password checks need root)
 
 ## Exit codes
 | Script | 0 | 1 | 2 |
@@ -34,6 +36,7 @@ Small, readable Bash tools for everyday Linux administration. Built in public ov
 | `log-analyzer.sh` | done | usage error | — |
 | `system-monitor.sh` | done | usage error | — |
 | `backup.sh` | backup created and verified | usage error | backup or verify failed |
+| `user-audit.sh` | no findings | usage error | at least one finding |
 
 ## Example output (log-analyzer)
     == LOG SUMMARY: last 1 hour(s) ==
