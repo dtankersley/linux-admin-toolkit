@@ -22,7 +22,7 @@ journalctl --since "$SINCE" -p err --no-pager -o short 2>/dev/null \
 echo
 echo "-- Failed authentication attempts --"
 fail_count=$(journalctl --since "$SINCE" --no-pager 2>/dev/null \
-    | grep -Ei 'authentication failure|failed password' | wc -l)
+    | grep -ciE 'authentication failure|failed password')
 echo "Count: ${fail_count}"
 
 echo
