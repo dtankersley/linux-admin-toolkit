@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # log-analyzer.sh - summarize recent errors and failed logins from journald
 # Usage: log-analyzer.sh [hours]   (default 24)
+# Exit codes: 0 done, 1 usage error
 set -uo pipefail
 
 HOURS=${1:-24}

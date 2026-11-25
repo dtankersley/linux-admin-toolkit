@@ -29,9 +29,17 @@ Small, readable Bash tools for everyday Linux administration. Built in public ov
     sudo ./scripts/user-audit.sh             # full audit (password checks need root)
 
 ## Exit codes
+Every script follows the same scheme, so they can be chained, scheduled, or wired into monitoring:
+
+| Code | Meaning |
+|---|---|
+| `0` | Success: nothing to report |
+| `1` | Usage error: bad arguments or settings, nothing was checked |
+| `2` | The script ran and found a problem |
+
 | Script | 0 | 1 | 2 |
 |---|---|---|---|
-| `health-check.sh` | healthy | at least one warning | — |
+| `health-check.sh` | healthy | usage error | at least one warning |
 | `service-check.sh` | all running | usage error | at least one not running |
 | `log-analyzer.sh` | done | usage error | — |
 | `system-monitor.sh` | done | usage error | — |
@@ -49,10 +57,17 @@ Small, readable Bash tools for everyday Linux administration. Built in public ov
 
     -- Last 5 error lines --
     Nov 19 12:07:03 omar1 david[500657]: toolkit-test: simulated error
+ 
+## Conventions
+- `#!/usr/bin/env bash` and `set -uo pipefail` (health-check also uses `-e`)
+- A header comment with what the script does, its usage, and its exit codes
+- Input is validated first; usage errors go to stderr
+- Every script passes `shellcheck scripts/*.sh` with no output
 
 ## What I learned
 - Exit codes are how scripts talk to other tools.
 - ShellCheck catches mistakes before they reach production.
+- One exit-code scheme across a toolkit means a caller never has to look up what `1` means for each script.
 
 ## Tested on
 Omarchy (Arch-based), Bash 5.x

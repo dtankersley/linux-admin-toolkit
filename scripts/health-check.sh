@@ -1,9 +1,22 @@
 #!/usr/bin/env bash
 # health-check.sh - quick Linux health report with threshold warnings
+# Usage: health-check.sh   (thresholds: DISK_WARN=N MEM_WARN=N, percent, default 80)
+# Exit codes: 0 healthy, 1 usage error, 2 at least one warning
 set -euo pipefail
+
+if (( $# > 0 )); then
+    echo "Usage: $0   (set DISK_WARN / MEM_WARN to change thresholds)" >&2
+    exit 1
+fi
 
 DISK_WARN=${DISK_WARN:-80}   # percent used
 MEM_WARN=${MEM_WARN:-80}     # percent used
+for t in "$DISK_WARN" "$MEM_WARN"; do
+    if ! [[ "$t" =~ ^[1-9][0-9]*$ ]] || (( t > 100 )); then
+        echo "Error: DISK_WARN and MEM_WARN must be whole numbers from 1 to 100" >&2
+        exit 1
+    fi
+done
 warnings=0
 
 section() { printf '\n== %s ==\n' "$1"; }
@@ -37,6 +50,6 @@ fi
 section "RESULT"
 if (( warnings > 0 )); then
     echo "Completed with ${warnings} warning(s)."
-    exit 1
+    exit 2
 fi
 echo "All checks passed."
